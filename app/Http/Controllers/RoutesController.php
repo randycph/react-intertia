@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class VelzonRoutesController extends Controller
+class RoutesController extends Controller
 {
     // dashboard
 

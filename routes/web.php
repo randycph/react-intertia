@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\VelzonRoutesController;
+use App\Http\Controllers\RoutesController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post("order-update", [OrderController::class, 'update'])->name('order-update');
     Route::post("order-delete", [OrderController::class, 'destroy'])->name('order-delete');
 
-    Route::controller(VelzonRoutesController::class)->group(function () {
+    Route::controller(RoutesController::class)->group(function () {
 
         // dashboard routes
         // Route::inertia('/', 'Dashboard')->name('index');
