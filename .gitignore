@@ -1,3 +1,6 @@
 node_modules
 vendor
 .env
+package-lock.json
+.DS_Store
+composer.lock
