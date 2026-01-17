@@ -82,8 +82,7 @@ const Sidebar = ({ layoutType }: any) => {
             <a className="dropdown-item" href="/apps-tasks-kanban"><i className="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Taskboard</span></a>
             <a className="dropdown-item" href="/pages-faqs"><i className="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Help</span></a>
             <div className="dropdown-divider"></div>
-            <a className="dropdown-item" href="/pages-profile"><i className="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Balance : <b>$5971.67</b></span></a>
-            <a className="dropdown-item" href="/pages-profile-settings"><span className="badge bg-success-subtle text-success mt-1 float-end">New</span><i className="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Settings</span></a>
+            <a className="dropdown-item" href="/pages-profile-settings"><i className="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Settings</span></a>
             <a className="dropdown-item" href="/auth-lockscreen-basic"><i className="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span className="align-middle">Lock screen</span></a>
             <a className="dropdown-item" href="/auth-logout-basic"><i className="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span className="align-middle" data-key="t-logout">Logout</span></a>
           </Dropdown.Menu>

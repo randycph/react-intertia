@@ -1,8 +1,20 @@
 <?php
 
+use App\Http\Controllers\Admin\ClassController;
+use App\Http\Controllers\Admin\ClassRosterController;
+use App\Http\Controllers\Admin\GradingPeriodController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\SchoolYearController;
+use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\SemesterController;
+use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\SubjectController;
+use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoutesController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -46,7 +58,7 @@ Route::middleware('auth')->group(function () {
         Route::get("/dashboard", "index");
         Route::get("/dashboard-analytics", "dashboard_analytics");
         Route::get("/dashboard-crm", "dashboard_crm");
-        Route::get("/dashboard", "dashboard");
+        Route::get("/dashboard", "dashboard_job");
         Route::get("/dashboard-crypto", "dashboard_crypto");
         Route::get("/dashboard-projects", "dashboard_projects");
         Route::get("/dashboard-nft", "dashboard_nft");
@@ -228,6 +240,68 @@ Route::middleware('auth')->group(function () {
         Route::get("/auth-offline", "auth_offline");      
         Route::get("/pages-maintenance", "pages_maintenance");
         Route::get("/pages-coming-soon", "pages_coming_soon");
+    });
+
+    Route::middleware(['role:super-admin, school-admin'])
+        ->prefix('admin')
+        ->group(function () {
+            
+            // Roles Management
+            Route::resource('/roles', RoleController::class);
+            Route::post('/roles/bulk-delete', [RoleController::class, 'bulkDelete']);
+
+            // Users Management
+            Route::resource('users', UserController::class);
+            Route::put('/users/change-password/{id}', [UserController::class, 'changePassword']);
+            Route::post('/users/bulk-delete', [UserController::class, 'bulkDelete']);
+
+            // School Years Management
+            Route::resource('school-years', SchoolYearController::class);
+            Route::post('school-years/{schoolYear}/activate', [SchoolYearController::class, 'activate'])->name('school-years.activate');
+            Route::post('school-years/bulk-delete', [SchoolYearController::class, 'bulkDelete']);
+        
+            // Semesters Management
+            Route::resource('semesters', SemesterController::class)->except(['show', 'create', 'edit']);
+            Route::post('semesters/{semester}/activate', [SemesterController::class, 'activate'])->name('semesters.activate');
+            Route::post('semesters/bulk-delete', [SemesterController::class, 'bulkDelete']);
+        
+            // Grading Periods Management
+            Route::resource('grading-periods', GradingPeriodController::class);
+            Route::post('grading-periods/{gradingPeriod}/activate', [GradingPeriodController::class, 'activate'])->name('grading-periods.activate');
+            Route::post('grading-periods/bulk-delete', [GradingPeriodController::class, 'bulkDelete']);
+
+            // Students Management
+            Route::resource('students', StudentController::class);
+            Route::post('students/bulk-delete', [StudentController::class, 'bulkDelete']);
+        
+            // Teachers Management
+            Route::resource('teachers', TeacherController::class);
+            Route::post('teachers/bulk-delete', [TeacherController::class, 'bulkDelete']);
+
+            // Sections Management
+            Route::resource('sections', SectionController::class);
+            Route::post('sections/bulk-delete', [SectionController::class, 'bulkDelete']);
+
+            // Classes Management
+            Route::resource('classes', ClassController::class);
+            Route::post('classes/bulk-delete', [ClassController::class, 'bulkDelete']);
+            Route::get('classes/{class}/roster',[ClassRosterController::class, 'index'])->name('classes.roster');
+
+            // Subjects Management
+            Route::resource('subjects', SubjectController::class);
+            Route::post('subjects/bulk-delete', [SubjectController::class, 'bulkDelete']);
+
+            // Enrollments Management
+            Route::get('enrollments', [EnrollmentController::class, 'index'])->name('enrollments.index');
+            Route::post('enrollments', [EnrollmentController::class, 'store'])->name('enrollments.store');
+            Route::post('enrollments/{enrollment}/transfer', [EnrollmentController::class, 'transfer'])->name('enrollments.transfer');
+            Route::post('enrollments/{enrollment}/drop', [EnrollmentController::class, 'drop'])->name('enrollments.drop');
+            Route::post('enrollments/{enrollment}/complete', [EnrollmentController::class, 'complete'])->name('enrollments.complete');
+            Route::delete('enrollments/{enrollment}', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
+        });
+
+    Route::middleware(['role:teacher'])->group(function () {
+        //Route::get('/teacher/dashboard', fn () => Inertia::render('Teacher/Dashboard'));
     });
 });
 

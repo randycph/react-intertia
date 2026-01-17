@@ -22,7 +22,7 @@ export default function Dashboard() {
 
   return (
     <React.Fragment>
-      <Head title='Dashboard | Velzon - React Admin & Dashboard Template' />
+      <Head title='Dashboard | HS Admin' />
       <div className="page-content">
         <Container fluid>
           <Row>

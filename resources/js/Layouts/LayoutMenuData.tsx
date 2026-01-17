@@ -138,9 +138,9 @@ const Navdata = () => {
         },
         {
             id: "dashboard",
-            label: "Dashboards",
+            label: "Dashboard",
             icon: "ri-dashboard-2-line",
-            link: "/#",
+            link: "/dashboard",
             stateVariables: isDashboard,
             click: function (e : any) {
                 e.preventDefault();
@@ -148,58 +148,6 @@ const Navdata = () => {
                 setIscurrentState('Dashboard');
                 updateIconSidebar(e);
             },
-            subItems: [
-                {
-                    id: "analytics",
-                    label: "Analytics",
-                    link: "/dashboard-analytics",
-                    parentId: "dashboard",
-                },
-                {
-                    id: "crm",
-                    label: "CRM",
-                    link: "/dashboard-crm",
-                    parentId: "dashboard",
-                },
-                {
-                    id: "ecommerce",
-                    label: "Ecommerce",
-                    link: "/dashboard",
-                    parentId: "dashboard",
-                },
-                {
-                    id: "crypto",
-                    label: "Crypto",
-                    link: "/dashboard-crypto",
-                    parentId: "dashboard",
-                },
-                {
-                    id: "projects",
-                    label: "Projects",
-                    link: "/dashboard-projects",
-                    parentId: "dashboard",
-                },
-                {
-                    id: "nft",
-                    label: "NFT",
-                    link: "/dashboard-nft",
-                    parentId: "dashboard",
-                },
-                {
-                    id: "job",
-                    label: "Job",
-                    link: "/dashboard-job",
-                    parentId: "dashboard",
-                },
-                {
-                    id: "blog",
-                    label: "Blog",
-                    link: "/dashboard-blog",
-                    parentId: "dashboard",
-                    badgeColor: "success",
-                    badgeName: "New",
-                },
-            ],
         },
         {
             id: "apps",

@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'status',
         'password',
     ];
 
@@ -42,4 +43,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole($slug)
+    {
+        return $this->roles->contains('slug', $slug);
+    }
+
+    public function hasAnyRole(array $roles)
+    {
+        return $this->roles->whereIn('slug', $roles)->count() > 0;
+    }
+
 }

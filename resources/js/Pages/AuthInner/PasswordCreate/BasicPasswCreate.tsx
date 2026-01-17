@@ -42,14 +42,6 @@ const BasicPasswCreate = () => {
                 <Container>
                     <Row>
                         <Col lg={12}>
-                            <div className="text-center mt-sm-5 mb-4 text-white-50">
-                                <div>
-                                    <Link href="/" className="d-inline-block auth-logo">
-                                        <img src={logoLight} alt="" height="20" />
-                                    </Link>
-                                </div>
-                                <p className="mt-3 fs-15 fw-medium">Premium Admin & Dashboard Template</p>
-                            </div>
                         </Col>
                     </Row>
                     <Row className="justify-content-center">

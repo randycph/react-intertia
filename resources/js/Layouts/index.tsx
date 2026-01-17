@@ -97,7 +97,7 @@ const Layout = ({children, props} : any) => {
             dispatch(changeSidebarImageType(leftSidebarImageType));
             dispatch(changeSidebarVisibility(sidebarVisibilitytype));
             dispatch(changeLayoutThemeColor(layoutThemeColorType));
-            dispatch(changeLayoutTheme(layoutThemeType));
+            dispatch(changeLayoutTheme('minimal'));
             dispatch(changeLayoutMode(layoutModeType));
         }
     }, [layoutType,
@@ -137,6 +137,14 @@ const Layout = ({children, props} : any) => {
     }
 
     useEffect(() => {
+        handleChangeSidebarAvatar();
+    });
+
+    const handleChangeSidebarAvatar = () => {
+        document.documentElement.setAttribute("data-sidebar-user-show", "");
+    };
+    
+    useEffect(() => {
         const humberIcon = document.querySelector(".hamburger-icon") as HTMLElement;
         if (sidebarVisibilitytype === 'show' || layoutType === "vertical" || layoutType === "twocolumn") {
             humberIcon.classList.remove('open');
@@ -160,7 +168,7 @@ const Layout = ({children, props} : any) => {
                     <Footer />
                 </div> 
             </div>
-            <RightSidebar />
+            {/* <RightSidebar /> */}
         </React.Fragment>
 
     );

@@ -4,6 +4,7 @@
 
 .badge {
     line-height: 0.95;
+    font-size: 1em;
 }
 
 @each $state in map-keys($theme-colors) { 

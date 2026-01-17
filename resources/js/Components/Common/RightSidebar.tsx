@@ -160,13 +160,16 @@ const RightSidebar = (props: any) => {
     }, [sidebarAvatar]);
 
     const handleChangeSidebarAvatar = (value: boolean) => {
+        console.log('value', value);
         setSidebarAvatar(value);
 
-        if (value) {
-            document.documentElement.setAttribute("data-sidebar-user-show", "");
-        } else {
-            document.documentElement.removeAttribute("data-sidebar-user-show");
-        }
+        document.documentElement.setAttribute("data-sidebar-user-show", "");
+
+        // if (value) {
+        //     document.documentElement.setAttribute("data-sidebar-user-show", "");
+        // } else {
+        //     document.documentElement.removeAttribute("data-sidebar-user-show");
+        // }
     };
     return (
         <React.Fragment>
