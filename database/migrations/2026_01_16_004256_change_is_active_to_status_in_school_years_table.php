@@ -17,6 +17,10 @@ return new class extends Migration
                 $table->dropColumn('is_active');
             }
 
+            if (Schema::hasColumn('school_years', 'status')) {
+                $table->dropColumn('status');
+            }
+            
             $table->enum('status', ['active', 'inactive'])->default('inactive')->after('end_date');
         });
     }
