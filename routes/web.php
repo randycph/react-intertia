@@ -18,6 +18,8 @@ use App\Http\Controllers\Admin\StudentGradeController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\EnrollmentController;
+use App\Http\Controllers\Admin\GradeViewerController;
+use App\Http\Controllers\ClassGradeViewerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoutesController;
@@ -317,6 +319,11 @@ Route::middleware('auth')->group(function () {
                     [ActivityController::class, 'store']
                 )->name('activities.store');
 
+                Route::get(
+                    'classes/{class}/grades',
+                    [ClassGradeViewerController::class, 'index']
+                );
+
                 Route::put(
                     'activities/{activity}',
                     [ActivityController::class, 'update']
@@ -342,10 +349,15 @@ Route::middleware('auth')->group(function () {
                     [ActivityScoreController::class, 'store']
                 )->name('activities.scores.store');
 
+                // Route::get(
+                //     'students/{student}/grades',
+                //     [StudentGradeController::class, 'index']
+                // )->name('students.grades');
+
                 Route::get(
                     'students/{student}/grades',
-                    [StudentGradeController::class, 'index']
-                )->name('students.grades');
+                    [GradeViewerController::class, 'student']
+                );
 
                 Route::get(
                     'students/{student}/report-card',

@@ -8,6 +8,17 @@ interface SubjectGrade {
   final_grade: number | null;
 }
 
+interface GradingPeriod {
+  id: number;
+  name: string;
+}
+
+interface SubjectGrade {
+  subject: string;
+  periods: Record<number, number | null>;
+  final_grade: number | null;
+}
+
 interface ReportCardProps {
   student: {
     student_no: string;
@@ -22,11 +33,12 @@ interface ReportCardProps {
     grade_level: number;
     name: string;
   };
+  gradingPeriods: GradingPeriod[];
   subjects: SubjectGrade[];
-} 
+}
 
 const ReportCard = () => {
-  const { student, schoolYear, section, subjects } =
+  const { student, schoolYear, section, subjects, gradingPeriods } =
     usePage<PageProps<ReportCardProps>>().props;
 
   return (
@@ -93,22 +105,40 @@ const ReportCard = () => {
               <thead className="table-light">
                 <tr>
                   <th>Subject</th>
-                  <th width="180">Final Grade</th>
+
+                  {gradingPeriods.map((gp) => (
+                    <th key={gp.id} className="text-center">
+                      {gp.name}
+                    </th>
+                  ))}
+
+                  <th width="180" className="text-center">
+                    Final Grade
+                  </th>
                 </tr>
               </thead>
+
               <tbody>
                 {subjects.map((s, index) => (
                   <tr key={index}>
                     <td>{s.subject}</td>
+
+                    {gradingPeriods.map((gp) => (
+                      <td key={gp.id} className="text-center">
+                        {s.periods[gp.id] !== null && s.periods[gp.id] !== undefined
+                          ? `${s.periods[gp.id]}%`
+                          : "—"}
+                      </td>
+                    ))}
+
                     <td className="text-center">
-                      {s.final_grade !== null
-                        ? `${s.final_grade}%`
-                        : "—"}
+                      {s.final_grade !== null ? `${s.final_grade}%` : "—"}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+
 
             {/* FOOTER */}
             <div className="mt-5 d-flex justify-content-between">

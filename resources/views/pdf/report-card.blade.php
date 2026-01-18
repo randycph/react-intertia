@@ -56,18 +56,27 @@
     <thead>
         <tr>
             <th>Subject</th>
-            <th width="120">Final Grade</th>
+            @foreach ($gradingPeriods as $gp)
+            <th>{{ $gp->name }}</th>
+            @endforeach
+            <th>Final</th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($subjects as $s)
-            <tr>
-                <td>{{ $s['subject'] }}</td>
-                <td align="center">
-                    {{ $s['final_grade'] !== null ? $s['final_grade'].'%' : '—' }}
+        @foreach ($subjects as $subject)
+        <tr>
+            <td>{{ $subject['subject'] }}</td>
+
+            @foreach ($gradingPeriods as $gp)
+                <td>
+                {{ $subject['periods'][$gp->id] ?? '—' }}
                 </td>
-            </tr>
+            @endforeach
+
+            <td>{{ $subject['final_grade'] ?? '—' }}</td>
+        </tr>
         @endforeach
+
     </tbody>
 </table>
 

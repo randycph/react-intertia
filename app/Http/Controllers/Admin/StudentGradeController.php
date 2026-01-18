@@ -32,7 +32,7 @@ class StudentGradeController extends Controller
             ->first();
 
         if (!$enrollment) {
-            return Inertia::render('Admin/Students/Grades', [
+            return Inertia::render('Students/Grades', [
                 'student' => $student,
                 'schoolYear' => $schoolYear,
                 'grades' => [],
@@ -54,7 +54,7 @@ class StudentGradeController extends Controller
             ];
         });
 
-        return Inertia::render('Students/Grades', [
+        return Inertia::render('Grades/Students', [
             'student' => $student,
             'schoolYear' => $schoolYear,
             'grades' => $grades,

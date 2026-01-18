@@ -263,6 +263,12 @@ const ClassesIndex = () => {
                 View Roster
               </Dropdown.Item>
               <Dropdown.Item
+                href={`/admin/classes/${cellProps.row.original.id}/grades`}
+              >
+                <i className="ri-eye-fill me-2" />
+                View Grades
+              </Dropdown.Item>
+              <Dropdown.Item
                 onClick={() => handleEditClass(cellProps.row.original)}
               >
                 <i className="ri-pencil-fill me-2" /> Edit
