@@ -17,7 +17,7 @@ class Activity extends Model
         'is_published',
     ];
 
-    public function class()
+    public function classes()
     {
         return $this->belongsTo(SchoolClass::class, 'class_id');
     }

@@ -3,19 +3,17 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Activity;
-use App\Models\ActivityScore;
-use App\Models\Enrollment;
 use App\Models\Score;
+use App\Models\Activity;
+use App\Models\Enrollment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
 
-class ActivityScoreController extends Controller
+class ScoreController extends Controller
 {
     public function index(Activity $activity)
     {
-       $activity->load([
+
+        $activity->load([
             'classes.section',
             'classes.subject',
             'classes.teacher',
@@ -27,7 +25,7 @@ class ActivityScoreController extends Controller
             ->where('section_id', $activity->classes->section_id)
             ->get();
 
-        $scores = ActivityScore::where('activity_id', $activity->id)
+        $scores = Score::where('activity_id', $activity->id)
             ->get()
             ->keyBy('student_id');
 
@@ -38,29 +36,18 @@ class ActivityScoreController extends Controller
         ]);
     }
 
-    public function activate(Request $request, Activity $activity)
-    {
-        DB::transaction(function () use ($activity) {
-            if ($activity->is_published === 1) {
-                $activity->update(['is_published' => 0]);
-            } else {
-                $activity->update(['is_published' => 1]);
-            }
-        });
 
-        return back()->with('success', 'Activity status updated.');
-    }
-
-    public function store(Request $request, Activity $activity)
+    public function store(Request $request)
     {
         $request->validate([
+            'activity_id' => 'required|exists:activities,id',
             'student_id' => 'required|exists:students,id',
             'score' => 'required|numeric|min:0',
         ]);
 
-        ActivityScore::updateOrCreate(
+        Score::updateOrCreate(
             [
-                'activity_id' => $activity->id,
+                'activity_id' => $request->activity_id,
                 'student_id' => $request->student_id,
             ],
             [

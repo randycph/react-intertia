@@ -5,17 +5,19 @@ use App\Http\Controllers\Admin\ActivityScoreController;
 use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\ClassRosterController;
 use App\Http\Controllers\Admin\GradingPeriodController;
+use App\Http\Controllers\Admin\PromotionController;
 use App\Http\Controllers\Admin\ReportCardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SchoolYearController;
 use App\Http\Controllers\Admin\SchoolYearLockController;
+use App\Http\Controllers\Admin\ScoreController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\StudentGradeController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
-use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoutesController;
@@ -331,6 +333,11 @@ Route::middleware('auth')->group(function () {
                 )->name('activities.scores');
 
                 Route::post(
+                    'activities/{activity}/activate',
+                    [ActivityScoreController::class, 'activate']
+                )->name('activities.scores.activate');
+
+                Route::post(
                     'activities/{activity}/scores',
                     [ActivityScoreController::class, 'store']
                 )->name('activities.scores.store');
@@ -360,6 +367,20 @@ Route::middleware('auth')->group(function () {
                     [SchoolYearLockController::class, 'unlock']
                 )->name('school-years.unlock');
 
+                Route::get(
+                    'promotion',
+                    [PromotionController::class, 'index']
+                )->name('promotion.index');
+
+                Route::post(
+                    'promotion',
+                    [PromotionController::class, 'promote']
+                )->name('promotion.store');
+
+                Route::post('promotion/undo', [PromotionController::class, 'undo']);
+
+                Route::get('scores', [ScoreController::class, 'index']);
+                Route::post('scores', [ScoreController::class, 'store']);
         });
 
     Route::middleware(['role:teacher'])->group(function () {

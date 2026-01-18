@@ -38,6 +38,7 @@ type SchoolClass = {
   id: number;
   subject: { name: string };
   section: { grade_level: number; name: string };
+  schoolYear?: { is_locked: boolean };
 };
 
 interface ActivitiesPageProps {
@@ -112,6 +113,15 @@ const ActivitiesIndex = () => {
       setDeleteModal(false);
     }
   };
+  const handleActivateActivity = (activityData: Activity) => {
+    setActivity(activityData);
+
+    router.post(`/admin/activities/${activityData.id}/activate`, {}, {
+      onSuccess: () => {
+        //
+      },
+    });
+  };
 
   const columns = useMemo(
     () => [
@@ -139,16 +149,15 @@ const ActivitiesIndex = () => {
       },
       {
         header: "Status",
-        cell: (c: any) =>
-          c.row.original.is_published ? (
-            <span className="badge bg-success-subtle text-success">
-              Published
-            </span>
-          ) : (
-            <span className="badge bg-warning-subtle text-warning">
-              Draft
-            </span>
-          ),
+        accessorKey: "is_published",
+        enableColumnFilter: false,
+        cell: (cellProps: any) => {
+          return (
+            <div className="form-check form-switch form-switch-md" dir="ltr">
+                <Form.Check.Input type="checkbox" onChange={() => handleActivateActivity(cellProps.row.original)} className="form-check-input" checked={cellProps.getValue() === 1} />
+            </div>
+          );
+        }
       },
       {
         header: "Actions",
@@ -342,7 +351,7 @@ const ActivitiesIndex = () => {
                     </h5>
                     <button
                       className="btn btn-primary"
-                      disabled={schoolClass.schoolYear.is_locked}
+                      disabled={schoolClass.schoolYear?.is_locked}
                       onClick={toggle}
                     >
                       <i className="ri-add-line" /> Add Activity

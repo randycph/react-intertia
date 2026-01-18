@@ -11,6 +11,7 @@ class Enrollment extends Model
         'school_year_id',
         'section_id',
         'status',
+        'is_promoted',
     ];
 
     public function student()

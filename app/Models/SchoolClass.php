@@ -38,5 +38,10 @@ class SchoolClass extends Model
     {
         return $this->belongsTo(Teacher::class);
     }
+
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
+    }
 }
 

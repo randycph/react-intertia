@@ -35,12 +35,12 @@ class DatabaseSeeder extends Seeder
         }
 
         // assign user 1 to role 1
-        $adminUser = \App\Models\User::find(1);
-        if ($adminUser) {
-            $adminUser->roles()->attach(Role::where('slug', 'super-admin')->first());
-        }
+        // $adminUser = \App\Models\User::find(1);
+        // if ($adminUser) {
+        //     $adminUser->roles()->attach(Role::where('slug', 'super-admin')->first());
+        // }
 
-        $this->call(DemoAcademicSeeder::class);
+        $this->call(DebugPromotionSeeder::class);
     }
 }
 

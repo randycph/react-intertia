@@ -149,4 +149,36 @@ class GradeComputationService
 
         return $report;
     }
+
+    /**
+     * Check if a student is eligible for promotion
+     */
+    public function isStudentEligibleForPromotion(
+        int $studentId,
+        int $schoolYearId
+    ): bool {
+        $enrollment = Enrollment::where('student_id', $studentId)
+            ->where('school_year_id', $schoolYearId)
+            ->where('status', 'enrolled')
+            ->first();
+
+        if (!$enrollment) {
+            return false;
+        }
+
+        $classes = SchoolClass::where('school_year_id', $schoolYearId)
+            ->where('section_id', $enrollment->section_id)
+            ->get();
+
+        foreach ($classes as $class) {
+            $grade = $this->computeFinalClassGrade($studentId, $class->id);
+
+            if ($grade === null || $grade < config('school.passing_grade', 75)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

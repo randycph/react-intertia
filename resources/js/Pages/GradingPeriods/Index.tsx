@@ -492,7 +492,7 @@ const GradingPeriodsIndex = () => {
                       data={gradingPeriodData || []}
                       isGlobalFilter={true}
                       customPageSize={8}
-                      divClass="table-responsive table-card mb-3"
+                      divClass="table-card mb-3"
                       tableClass="align-middle table-nowrap mb-0 table table-hover"
                       theadClass=""
                       thClass=""

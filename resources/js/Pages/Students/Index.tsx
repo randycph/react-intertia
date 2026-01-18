@@ -252,7 +252,7 @@ const columns = useMemo(
                 enableColumnFilter: false,
                 cell: (cellProps: any) => {
                     const gender = cellProps.getValue();
-                    return <>{gender.charAt(0).toUpperCase() + gender.slice(1)}</>;
+                    return <>{gender?.charAt(0).toUpperCase() + gender?.slice(1)}</>;
                 },
             },
             { 

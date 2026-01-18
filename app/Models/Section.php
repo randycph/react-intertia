@@ -43,5 +43,10 @@ class Section extends Model
             'student_id'
         );
     }
+
+    public function classes()
+    {
+        return $this->hasMany(SchoolClass::class);
+    }
 }
 

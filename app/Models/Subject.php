@@ -15,4 +15,9 @@ class Subject extends Model
         'description',
         'status',
     ];
+
+    public function scores()
+    {
+        return $this->hasMany(Score::class);
+    }
 }
