@@ -24,6 +24,7 @@ use App\Http\Controllers\ClassGradeViewerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoutesController;
+use App\Http\Controllers\TeacherAttendanceController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -402,8 +403,9 @@ Route::middleware('auth')->group(function () {
 
                 Route::post('promotion/undo', [PromotionController::class, 'undo']);
 
-                Route::get('scores', [ScoreController::class, 'index']);
-                Route::post('scores', [ScoreController::class, 'store']);
+                Route::get('teacher-attendance', [TeacherAttendanceController::class, 'index']);
+                Route::post('teacher-attendance', [TeacherAttendanceController::class, 'store']);
+
         });
 
     Route::middleware(['role:teacher'])->group(function () {
