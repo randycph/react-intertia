@@ -36,11 +36,10 @@ const ClassAttendance = () => {
     setData(
       "students",
       data.students.map((s: any) =>
-        s.status === null ? { ...s, status: "present" } : s
-      )
+        s.status === null ? { ...s, status: "present" } : s,
+      ),
     );
   };
-
 
   const initialStudentsRef = useRef<any[]>(
     JSON.parse(JSON.stringify(students)),
@@ -99,8 +98,6 @@ const ClassAttendance = () => {
       );
     });
   };
-
-
 
   useEffect(() => {
     const handler = (e: BeforeUnloadEvent) => {
@@ -164,20 +161,20 @@ const ClassAttendance = () => {
         }}
       />
 
-<ConfirmActionModal
-  show={markAllModal}
-  title="Mark All Present"
-  message="This will mark all unmarked students as Present. Existing attendance entries will not be changed."
-  icon="ri-user-follow-line"
-  iconColor="text-info"
-  confirmText="Yes, Mark All Present"
-  confirmButtonClass="btn-info"
-  onConfirm={() => {
-    markAllPresent();
-    setMarkAllModal(false);
-  }}
-  onClose={() => setMarkAllModal(false)}
-/>
+      <ConfirmActionModal
+        show={markAllModal}
+        title="Mark All Present"
+        message="This will mark all unmarked students as Present. Existing attendance entries will not be changed."
+        icon="ri-user-follow-line"
+        iconColor="text-info"
+        confirmText="Yes, Mark All Present"
+        confirmButtonClass="btn-info"
+        onConfirm={() => {
+          markAllPresent();
+          setMarkAllModal(false);
+        }}
+        onClose={() => setMarkAllModal(false)}
+      />
 
       <div className="page-content">
         <Container fluid>
@@ -221,20 +218,19 @@ const ClassAttendance = () => {
                     </Col>
                   </Row>
 
-<Row className="mb-2">
-  <Col>
-    <small
-      className={
-        markedCount === totalStudents
-          ? "text-success"
-          : "text-warning"
-      }
-    >
-      Attendance marked: {markedCount} / {totalStudents}
-    </small>
-  </Col>
-</Row>
-
+                  <Row className="mb-2">
+                    <Col>
+                      <small
+                        className={
+                          markedCount === totalStudents
+                            ? "text-success"
+                            : "text-warning"
+                        }
+                      >
+                        Attendance marked: {markedCount} / {totalStudents}
+                      </small>
+                    </Col>
+                  </Row>
 
                   <Table bordered hover className="align-middle">
                     <thead className="table-light">
@@ -279,35 +275,32 @@ const ClassAttendance = () => {
                     </tbody>
                   </Table>
 
-{canMarkAttendance && (
-  <div className="d-flex justify-content-end gap-2">
-    <Button
-      variant="info"
-      onClick={() =>
-        setMarkAllModal(true)
-      }
-    >
-      Mark All Present
-    </Button>
+                  {canMarkAttendance && (
+                    <div className="d-flex justify-content-end gap-2">
+                      <Button
+                        variant="info"
+                        onClick={() => setMarkAllModal(true)}
+                      >
+                        Mark All Present
+                      </Button>
 
-    <Button
-      variant="light"
-      onClick={clearAttendance}
-      disabled={processing}
-    >
-      Clear Attendance
-    </Button>
+                      <Button
+                        variant="light"
+                        onClick={clearAttendance}
+                        disabled={processing}
+                      >
+                        Clear Attendance
+                      </Button>
 
-    <Button
-      variant="primary"
-      onClick={() => setConfirmModal(true)}
-      disabled={processing}
-    >
-      Save Attendance
-    </Button>
-  </div>
-)}
-
+                      <Button
+                        variant="primary"
+                        onClick={() => setConfirmModal(true)}
+                        disabled={processing}
+                      >
+                        Save Attendance
+                      </Button>
+                    </div>
+                  )}
                 </Card.Body>
               </Card>
             </Col>
