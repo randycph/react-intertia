@@ -265,8 +265,14 @@ const ClassesIndex = () => {
               <Dropdown.Item
                 href={`/admin/classes/${cellProps.row.original.id}/grades`}
               >
-                <i className="ri-eye-fill me-2" />
+                <i className="ri-sticky-note-2-line me-2" />
                 View Grades
+              </Dropdown.Item>
+              <Dropdown.Item
+                href={`/admin/classes/${cellProps.row.original.id}/attendance`}
+              >
+                <i className="ri-calendar-check-fill me-2" />
+                View Attendance
               </Dropdown.Item>
               <Dropdown.Item
                 onClick={() => handleEditClass(cellProps.row.original)}

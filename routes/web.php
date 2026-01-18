@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\GradeViewerController;
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ClassGradeViewerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -322,6 +323,16 @@ Route::middleware('auth')->group(function () {
                 Route::get(
                     'classes/{class}/grades',
                     [ClassGradeViewerController::class, 'index']
+                );
+
+                Route::get(
+                    'classes/{class}/attendance',
+                    [AttendanceController::class, 'index']
+                );
+
+                Route::post(
+                    'classes/{class}/attendance',
+                    [AttendanceController::class, 'store']
                 );
 
                 Route::put(
