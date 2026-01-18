@@ -10,7 +10,8 @@ class SchoolYear extends Model
         'name',
         'start_date',
         'end_date',
-        'status'
+        'status',
+        'is_locked'
     ];
 }
 

@@ -1,13 +1,18 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityController;
+use App\Http\Controllers\Admin\ActivityScoreController;
 use App\Http\Controllers\Admin\ClassController;
 use App\Http\Controllers\Admin\ClassRosterController;
 use App\Http\Controllers\Admin\GradingPeriodController;
+use App\Http\Controllers\Admin\ReportCardController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\SchoolYearController;
+use App\Http\Controllers\Admin\SchoolYearLockController;
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\SemesterController;
 use App\Http\Controllers\Admin\StudentController;
+use App\Http\Controllers\Admin\StudentGradeController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\EnrollmentController;
@@ -298,6 +303,63 @@ Route::middleware('auth')->group(function () {
             Route::post('enrollments/{enrollment}/drop', [EnrollmentController::class, 'drop'])->name('enrollments.drop');
             Route::post('enrollments/{enrollment}/complete', [EnrollmentController::class, 'complete'])->name('enrollments.complete');
             Route::delete('enrollments/{enrollment}', [EnrollmentController::class, 'destroy'])->name('enrollments.destroy');
+
+            // Activities
+            Route::get(
+                'classes/{class}/activities',
+                    [ActivityController::class, 'index']
+                )->name('activities.index');
+
+                Route::post(
+                    'classes/{class}/activities',
+                    [ActivityController::class, 'store']
+                )->name('activities.store');
+
+                Route::put(
+                    'activities/{activity}',
+                    [ActivityController::class, 'update']
+                )->name('activities.update');
+
+                Route::delete(
+                    'activities/{activity}',
+                    [ActivityController::class, 'destroy']
+                )->name('activities.destroy');
+
+                Route::get(
+                    'activities/{activity}/scores',
+                    [ActivityScoreController::class, 'index']
+                )->name('activities.scores');
+
+                Route::post(
+                    'activities/{activity}/scores',
+                    [ActivityScoreController::class, 'store']
+                )->name('activities.scores.store');
+
+                Route::get(
+                    'students/{student}/grades',
+                    [StudentGradeController::class, 'index']
+                )->name('students.grades');
+
+                Route::get(
+                    'students/{student}/report-card',
+                    [ReportCardController::class, 'show']
+                )->name('students.report-card');
+
+                Route::get(
+                    'students/{student}/report-card/pdf',
+                    [ReportCardController::class, 'pdf']
+                )->name('students.report-card.pdf');
+
+                Route::post(
+                    'school-years/{schoolYear}/lock',
+                    [SchoolYearLockController::class, 'lock']
+                )->name('school-years.lock');
+
+                Route::post(
+                    'school-years/{schoolYear}/unlock',
+                    [SchoolYearLockController::class, 'unlock']
+                )->name('school-years.unlock');
+
         });
 
     Route::middleware(['role:teacher'])->group(function () {

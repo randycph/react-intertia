@@ -4,3 +4,11 @@ vendor
 package-lock.json
 .DS_Store
 composer.lock
+.idea
+storage/logs
+storage/framework/cache
+storage/framework/sessions
+storage/framework/views
+public/storage
+yarn-error.log
+yarn.lock

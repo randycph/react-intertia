@@ -287,6 +287,20 @@ const columns = useMemo(
                             <i className="ri-more-fill" />
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
+                          <Dropdown.Item
+                            as={Link}
+                            href={`/admin/students/${cellProps.row.original.id}/grades`}
+                          >
+                            <i className="ri-bar-chart-fill me-2" />
+                            View Grades
+                          </Dropdown.Item>
+                            <Dropdown.Item
+                              href={`/admin/students/${cellProps.row.original.id}/report-card`}
+                            >
+                              <i className="ri-file-pdf-line me-2" />
+                              Report Card
+                            </Dropdown.Item>
+
                             <Dropdown.Item
                                 onClick={() =>
                                     handleEditStudent(cellProps.row.original)

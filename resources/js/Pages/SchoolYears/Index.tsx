@@ -22,6 +22,7 @@ import TableContainer from "../../Components/Common/TableContainer";
 import DeleteModal from "../../Components/Common/DeleteModal";
 import Layout from "../../Layouts";
 import Loader from "../../Components/Common/Loader";
+import ConfirmActionModal from "../../Components/Common/ConfirmActionModal";
 
 type schoolYear = {
   id: number;
@@ -29,6 +30,7 @@ type schoolYear = {
   start_date: string;
   end_date: string;
   status: "active" | "inactive";
+  is_locked: boolean;
 };
 
 const SchoolYearsIndex = () => {
@@ -70,6 +72,7 @@ const SchoolYearsIndex = () => {
       start_date: schoolYear?.start_date || "",
       end_date: schoolYear?.end_date || "",
       status: schoolYear?.status || "inactive",
+      is_locked: schoolYear?.is_locked || false,
     },
 
     validationSchema: Yup.object({
@@ -168,7 +171,7 @@ const SchoolYearsIndex = () => {
 
   const deleteMultiple = () => {
     const ids = Array.from(selectedCheckBoxDelete).map((el: any) =>
-      Number(el.value)
+      Number(el.value),
     );
 
     router.post("/admin/school-years/bulk-delete", { ids });
@@ -190,6 +193,37 @@ const SchoolYearsIndex = () => {
       ? setIsMultiDeleteButton(true)
       : setIsMultiDeleteButton(false);
     setSelectedCheckBoxDelete(ele);
+  };
+
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [actionType, setActionType] = useState<"lock" | "unlock" | null>(null);
+  const [selectedYear, setSelectedYear] = useState<any>(null);
+
+  const openLockModal = (year: any) => {
+    setSelectedYear(year);
+    setActionType("lock");
+    setConfirmModal(true);
+  };
+
+  const openUnlockModal = (year: any) => {
+    setSelectedYear(year);
+    setActionType("unlock");
+    setConfirmModal(true);
+  };
+
+  const handleConfirm = () => {
+    if (!selectedYear || !actionType) return;
+
+    const url =
+      actionType === "lock"
+        ? `/admin/school-years/${selectedYear.id}/lock`
+        : `/admin/school-years/${selectedYear.id}/unlock`;
+
+    router.post(url);
+
+    setConfirmModal(false);
+    setSelectedYear(null);
+    setActionType(null);
   };
 
   const columns = useMemo(
@@ -248,6 +282,14 @@ const SchoolYearsIndex = () => {
         },
       },
       {
+        header: "Is Locked",
+        accessorKey: "is_locked",
+        enableColumnFilter: false,
+        cell: (cellProps: any) => {
+          return cellProps.getValue() ? "Locked" : "Unlocked";
+        },
+      },
+      {
         header: "Actions",
         cell: (cellProps: any) => {
           return (
@@ -276,6 +318,28 @@ const SchoolYearsIndex = () => {
                   </Dropdown.Item>
                 </li>
                 <li>
+                  {cellProps.row.original.status !== "active" &&
+                    !cellProps.row.original.is_locked && (
+                      <Dropdown.Item
+                        onClick={() => openLockModal(cellProps.row.original)}
+                      >
+                        <i className="ri-lock-line me-2" />
+                        Lock School Year
+                      </Dropdown.Item>
+                    )}
+                </li>
+                <li>
+                  {cellProps.row.original.is_locked && (
+                    <Dropdown.Item
+                      className="text-danger"
+                      onClick={() => openUnlockModal(cellProps.row.original)}
+                    >
+                      <i className="ri-lock-unlock-line me-2" />
+                      Unlock School Year
+                    </Dropdown.Item>
+                  )}
+                </li>
+                <li>
                   <Dropdown.Divider />
                   <Dropdown.Item
                     className="remove-item-btn"
@@ -296,7 +360,7 @@ const SchoolYearsIndex = () => {
         },
       },
     ],
-    [checkedAll]
+    [checkedAll],
   );
 
   const Status = (cell: any) => {
@@ -332,6 +396,30 @@ const SchoolYearsIndex = () => {
             setDeleteModalMulti(false);
           }}
           onCloseClick={() => setDeleteModalMulti(false)}
+        />
+
+        <ConfirmActionModal
+          show={confirmModal && actionType === "lock"}
+          title="Lock School Year"
+          message="Locking this school year will make all academic records read-only. This action should only be done after finalizing grades."
+          icon="ri-lock-line"
+          iconColor="text-warning"
+          confirmText="Yes, Lock It!"
+          confirmButtonClass="btn-warning"
+          onConfirm={handleConfirm}
+          onClose={() => setConfirmModal(false)}
+        />
+
+        <ConfirmActionModal
+          show={confirmModal && actionType === "unlock"}
+          title="Unlock School Year"
+          message="Unlocking will allow modifications to historical academic records. Proceed only if a correction is required."
+          icon="ri-lock-unlock-line"
+          iconColor="text-danger"
+          confirmText="Yes, Unlock It!"
+          confirmButtonClass="btn-danger"
+          onConfirm={handleConfirm}
+          onClose={() => setConfirmModal(false)}
         />
       </Row>
 

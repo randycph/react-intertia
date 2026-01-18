@@ -55,6 +55,10 @@ class EnrollmentController extends Controller
 
         $schoolYear = SchoolYear::where('status', 'active')->firstOrFail();
 
+        if ($schoolYear->is_locked) {
+            abort(403, 'School year is locked.');
+        }
+
         // Check if student already enrolled in this school year
         $existing = Enrollment::where('student_id', $data['student_id'])
             ->where('school_year_id', $schoolYear->id)
